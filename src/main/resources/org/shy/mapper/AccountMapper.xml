@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.shy.mapper.AccountMapper">
+
+    <resultMap id="account_role" type="org.shy.beans.Account" autoMapping="true">
+        <collection property="roles" ofType="org.shy.beans.Role" autoMapping="true">
+        </collection>
+    </resultMap>
+    <select id="queryAccountByUsername" parameterType="string" resultMap="account_role">
+        select account.aId,aUsername username,aPassword password,rName from account
+        left join account_role on account.aId = account_role.aId
+        left join role  on account_role.rId = role.rId
+        where aUsername=#{username}
+    </select>
+
+</mapper>
